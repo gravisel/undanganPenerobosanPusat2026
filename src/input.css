@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ephesis&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap");
+
+@import "tailwindcss";
+
+@theme { 
+    --font-tittle3: "Playfair", serif;
+    --font-Name: "Ephesis", cursive;
+    --font-paragraf: "Inter", sans-serif;
+    --font-tittle2: "Princess Sofia", cursive;
+
+    --color-mainColor: #264677;
+    --color-secondColor: #358A9E;
+    --color-thirdColor: #FDD130;
+}
+
+    /* ::-webkit-scrollbar {
+        display: none;
+    } */
+
+
+p {
+  font-family: var(--font-paragraf);
+}
+
+h1 {
+  font-family: var(--font-Name);
+  font-weight: 700;
+}
+
+h2 {
+  font-family: var(--font-tittle2);
+}
+
+h3 {
+    font-family: var(--font-tittle3);
+}
+
+@layer components {
+  .count-box {
+    @apply rounded-xl ;
+  }
+  .count-number {
+    @apply text-6xl text-mainColor;
+  }
+  .count-label {
+    @apply text-xs uppercase tracking-wide;
+  }
+}
+
+@layer components {
+  .gallery-box {
+    @apply h-[100px] cursor-pointer;
+  }
+
+  .gallery-img {
+    @apply h-full w-auto block rounded-xl
+           transition-transform duration-300
+           hover:scale-105 hover:brightness-90;
+  }
+}
+
+/* =====================
+   ANIMATION BASE
+===================== */
+.animate-on-scroll {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* =====================
+   KEYFRAMES
+===================== */
+
+/* Fade Up */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade Down */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade Left */
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fade Right */
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Zoom In */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Fade + Blur (Premium) */
+@keyframes fadeBlur {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(15deg); }
+}
+
+@keyframes wiggle2 {
+  0%, 100% { transform: rotate(7deg); }
+  50% { transform: rotate(18deg); }
+}
+
+/* =====================
+   ANIMATION CLASSES
+===================== */
+
+.animate-fade-up {
+  animation: fadeUp 1.5s ease-out forwards;
+}
+
+.animate-fade-down {
+  animation: fadeDown 1.5s ease-out forwards;
+}
+
+.animate-fade-left {
+  animation: fadeLeft 1.5s ease-out forwards;
+}
+
+.animate-fade-right {
+  animation: fadeRight 1.5s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 2s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.animate-fade-blur {
+  animation: fadeBlur 1.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: .1s; }
+.delay-200 { animation-delay: .2s; }
+.delay-300 { animation-delay: .3s; }
+.delay-400 { animation-delay: .6s; }
+
+
+//overlay
+.nav-btn {
+  @apply flex-none flex items-center justify-center min-w-[36px] min-h-[36px] w-9 h-9 min-w-[36px] min-h-[36px] text-xs font-medium text-white transition;
+         
+}
+
+.nav-btn.active {
+  @apply flex items-center justify-center bg-white h-[36px] w-[36px] text-indigo-950 rounded-xl;
+}
+
+.nav-hidden {
+  @apply translate-y-24 opacity-0 pointer-events-none;
+}
+
+.nav-show {
+  @apply translate-y-0 opacity-100;
+}
+
+/* Premium CTA heartbeat button */
+@keyframes heartbeatPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(148, 65, 73, 0.55);
+  }
+  18% {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 8px rgba(148, 65, 73, 0.15);
+  }
+  32% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 3px rgba(148, 65, 73, 0.08);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 10px rgba(148, 65, 73, 0.18);
+  }
+  70% {
+    transform: scale(0.99);
+    box-shadow: 0 0 0 4px rgba(148, 65, 73, 0.08);
+  }
+}
+
+.btn-heartbeat {
+  position: relative;
+  isolation: isolate;
+  animation: heartbeatPulse 1.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.btn-heartbeat::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.65), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(251, 191, 36, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.btn-heartbeat:hover::before {
+  opacity: 1;
+}

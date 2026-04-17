@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="./dist/output.css" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <meta name="viewport" content="width=h1, initial-scale=1.0">
+  <title>UndPenerobosanMMD</title>
+
+  <meta property="og:title" content="PENEROBOSAN PUSAT 2026">
+  <meta property="og:description" content="Undangan Penerobosan Pusat">
+  <meta property="og:image"
+    content="https://aldinoazzahra-ivorybloom-gravisel25-7464s-projects.vercel.app/img/preview.jpg">
+  <meta property="og:url" content="https://aldinoazzahra-ivorybloom-gravisel25-7464s-projects.vercel.app">
+  <meta property="og:type" content="website">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-secondColor via-white to-secondColor">
+
+  <div id="dashboardWrap"
+    class="fixed inset-0 z-[10000] hidden min-h-screen bg-gradient-to-br from-mainColor via-mainColor to-secondColor">
+    <!-- Login -->
+    <div id="dashboardLogin" class="min-h-screen flex items-center justify-center p-4">
+      <div class="w-full max-w-sm">
+        <div class="rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl p-8">
+          <div class="w-14 h-px bg-white/50 mx-auto mb-6"></div>
+          <p class="text-3xl font-semibold text-white text-center mb-1">Dashboard Undangan</p>
+          <p class="text-white/70 text-sm text-center mb-8">Masukkan password untuk masuk</p>
+          <input type="password" id="dashboardPassword" placeholder="Password" autocomplete="off"
+            class="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent transition-all">
+          <p id="dashboardLoginError" class="text-red-300 text-sm mt-2 hidden">Password salah.</p>
+          <button id="dashboardLoginBtn"
+            class="w-full mt-4 py-3.5 rounded-xl bg-mainColor hover:bg-mainColor text-white font-medium tracking-wide transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
+            Masuk
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel Dashboard (setelah login) -->
+    <div id="dashboardPanel" class="hidden min-h-screen overflow-y-auto">
+      <div class="max-w-lg mx-auto px-4 py-8 pb-24">
+        <div class="flex items-center justify-between mb-8">
+          <p class="text-xl font-semibold text-white">Dashboard</p>
+          <button id="dashboardLogout"
+            class="text-white/80 hover:text-white text-sm py-2 px-3 rounded-lg hover:bg-white/10 transition-all">Keluar</button>
+        </div>
+
+        <div class="rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl p-6 mb-6">
+          <h3 class="text-white font-medium mb-1">Generate Link Undangan</h3>
+          <p class="text-white/60 text-sm mb-4">Masukkan nama generus, lalu salin link yang dihasilkan.</p>
+          <input type="text" id="dashboardGuestName" placeholder="Nama Generus (contoh: Agus)"
+            class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 mb-3">
+          <button id="dashboardGenerateBtn"
+            class="w-full py-3 rounded-xl bg-mainColor
+            hover:bg-mainColor text-white font-medium transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]">
+            Generate Link
+          </button>
+        </div>
+
+        <div id="dashboardGeneratedBox"
+          class="hidden rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl p-6 mb-6">
+          <h3 class="text-white font-medium mb-2">Link untuk: <span id="dashboardGeneratedName"
+              class="text-[#c4a77d]"></span></h3>
+          <div class="flex gap-2">
+            <input type="text" id="dashboardGeneratedLink" readonly
+              class="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white/90 text-sm">
+            <button id="dashboardCopyBtn"
+              class="shrink-0 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-all">
+              Salin
+            </button>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl p-6">
+          <h3 class="text-white font-medium mb-3">Link yang sudah dibuat</h3>
+          <div id="dashboardLinkList" class="space-y-2 max-h-64 overflow-y-auto">
+            <p id="dashboardLinkListEmpty" class="text-white/50 text-sm">Belum ada link. Generate link di atas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay notif copy: "Link disalin" -->
+    <div id="dashboardToast"
+      class="fixed inset-0 z-[10001] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+      <div class="bg-black/70 backdrop-blur-sm rounded-2xl px-8 py-4 border border-white/20 shadow-2xl">
+        <p class="text-white font-medium tracking-wide">Link disalin</p>
+      </div>
+    </div>
+  </div>
+
+  <main class="min-h-screen flex items-center justify-center">
+
+    <header id="cover"
+      class="min-h-screen w-full md:max-w-[420px] fixed z-[9999] bg-neutral-900 flex overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.77,0,0.18,1)]">
+
+      <!-- Background image -->
+      <div class="absolute inset-0">
+        <img src="img/BgCover.png" class="w-full h-full object-cover scale-110">
+      </div>
+
+
+      <!-- Content -->
+      <div class="relative text-center text-mainColor w-full h-auto justify-items-center ">
+
+        <!-- <div class="w-12 h-px bg-white mx-auto mb-10"></div> -->
+
+        <div class="flex flex-col items-center w-[90%] h-auto mt-8">
+          <!-- <img src="img/logoAtasCover.png" alt="" class="w-[160px] mb-3"> -->
+          <img src="img/TittleCover2.png" alt="" class="w-[395px]">
+        </div>
+
+        <h1 class="text-3xl font-bold my-6">We Invite You to Join Us</h1>
+
+        <div class="mb-4 text-sm font-normal">
+          <p>Kepada Yth.</p>
+          <p id="guestName" class="text-mainColor font-extrabold text-2xl mt-1">
+            Generus Jumapolo
+          </p>
+          <p class="mt-1">Di Tempat</p>
+        </div>
+
+        <button id="openInvitation"
+          class="btn-heartbeat group inline-flex items-center justify-center px-8 py-3 rounded-full border border-white/40 bg-gradient-to-r from-mainColor via-secondColor to-transparent backdrop-blur-2xl text-[0.65rem] md:text-xs tracking-[0.35em] uppercase font-paragraf text-white shadow-[0_18px_45px_rgba(15,23,42,0.9)] cursor-pointer transition-all duration-500 ease-out hover:bg-white hover:text-mainColor hover:border-mainColor hover:shadow-[0_22px_55px_rgba(15,23,42,1)] hover:bg-none">
+          <span class="mr-2">BUKA UNDANGAN</span>
+          <span
+            class="flex items-center justify-center h-5 w-5 rounded-full border border-white/60 bg-white/10 group-hover:bg-mainColor group-hover:text-white group-hover:border-transparent transition-all duration-500">&rsaquo;</span>
+        </button>
+
+        <div class="absolute bottom-0 w-full h-[150px] flex flex-row justify-between items-end">
+
+          <div class="relative">
+            <!-- layer 1 -->
+            <div class="w-[180px] origin-bottom-left animate-[wiggle2_4s_ease-in-out_infinite]">
+              <img src="img/daun1.png" class="w-[150px] translate-y-[10px] -translate-x-[50px]">
+            </div>
+
+            <!-- layer 2 -->
+            <div class="absolute top-0 left-0 w-[180px]
+            origin-bottom-left animate-[wiggle_3s_ease-in-out_infinite]">
+              <img src="img/daun1.png" class="w-[160px] translate-y-[30px] -translate-x-[10px] rotate-12">
+            </div>
+          </div>
+
+          <div class="relative h-[150px] w-auto bottom-0">
+            <img src="img/masjid.png" alt="" class="h-[150px] ">
+          </div>
+        </div>
+
+
+      </div>
+
+    </header>
+
+    <section class="w-full md:max-w-[420px] bg-white min-h-screen overflow-hidden hidden mx-auto relative"
+      id="mainContent">
+
+      <!-- Tombol mute musik (overlay di samping) -->
+      <button type="button" id="musicToggle" aria-label="Mute musik" title="Matikan musik"
+        class="fixed right-3 bottom-20 -translate-y-1/2 z-[1000] w-11 h-11 rounded-full bg-mainColor/80 hover:bg-mainColor border border-white/20 text-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95">
+        <span id="musicToggleIconOn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+            <path
+              d="M162.64,26.61a6,6,0,0,0-6.32.65L85.94,82H40A14,14,0,0,0,26,96v64a14,14,0,0,0,14,14H85.94l70.38,54.74A6,6,0,0,0,166,224V32A6,6,0,0,0,162.64,26.61ZM154,211.73,91.68,163.26A6,6,0,0,0,88,162H40a2,2,0,0,1-2-2V96a2,2,0,0,1,2-2H88a6,6,0,0,0,3.68-1.26L154,44.27ZM206,104v48a6,6,0,0,1-12,0V104a6,6,0,0,1,12,0Zm32-16v80a6,6,0,0,1-12,0V88a6,6,0,0,1,12,0Z">
+            </path>
+          </svg>
+        </span>
+        <span id="musicToggleIconOff" class="hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+            <path
+              d="M194,152V104a6,6,0,0,1,12,0v48a6,6,0,0,1-12,0Zm38-70a6,6,0,0,0-6,6v80a6,6,0,0,0,12,0V88A6,6,0,0,0,232,82ZM220.44,212a6,6,0,0,1-8.88,8.08L166,169.92V224a6,6,0,0,1-9.68,4.74L85.94,174H40a14,14,0,0,1-14-14V96A14,14,0,0,1,40,82H86.07L51.56,44A6,6,0,0,1,60.44,36ZM154,156.72,97,94H40a2,2,0,0,0-2,2v64a2,2,0,0,0,2,2H88a6,6,0,0,1,3.68,1.26L154,211.73Zm-30.17-89L154,44.27v62.56a6,6,0,0,0,12,0V32a6,6,0,0,0-9.68-4.74l-39.85,31a6,6,0,1,0,7.36,9.47Z">
+            </path>
+          </svg>
+        </span>
+      </button>
+
+
+      <section id="greeting"
+        class="w-full max-w-[420px] h-[680px] bg-[url(/img/bg.png)] flex flex-col items-center justify-center">
+
+        <div class="relative min-h-[680px] w-full max-w-[420px] overflow-hidden flex items-center justify-center">
+
+          <div
+            class="w-[340px] h-[550px] bg-secondColor/20 rounded-xl shadow-lg flex flex-col items-center justify-center px-8">
+
+            <h2 class="text-2xl font-semibold text-center mt-8 text-mainColor">
+              Assalamu’alaikum
+            </h2>
+
+            <p class="italic leading-[20px] text-mainColor mb-10 animate-on-scroll" data-animate="zoom-in">
+              Generus Jumapolo!!
+            </p>
+
+            <p class="text-mainColor leading-[20px] animate-on-scroll text-center" data-animate="zoom-in">
+              Di antara banyaknya kesibukan dan urusan dunia, Allah SWT masih memberi kita banyak sekali nikmat dan
+              kesempatan untuk beribadahh kepada-Nya. <br> <br> Dengan penuh rasa syukur, kami mengundang teman-teman
+              Generus Jumapolo untuk hadir dalam
+            </p>
+            <p class="text-mainColor mb-8 font-bold leading-[20px] animate-on-scroll text-center "
+              data-animate="zoom-in">
+              PENEROBOSAN MUDA-MUDI PUSAT.
+            </p>
+
+          </div>
+
+          <div class="absolute top-0 right-0 flex items-start justify-end">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-top-right animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[200px] -translate-y-[30px] translate-x-[10px] scale-y-[-1] scale-x-[-1]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[150px]
+              origin-top-right animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[150px] -translate-y-[5px] translate-x-[60px] rotate-12 scale-y-[-1] scale-x-[-1]">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="absolute bottom-0 w-full h-[150px] flex flex-row justify-between items-end">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-bottom-left animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[180px] translate-y-[10px] -translate-x-[50px]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[180px]
+              origin-bottom-left animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[200px] translate-y-[30px] -translate-x-[10px] rotate-12">
+              </div>
+            </div>
+
+            <div class="relative h-auto w-auto bottom-0">
+              <img src="img/masjid.png" alt="" class="h-[200px] ">
+            </div>
+          </div>
+
+        </div>
+        </div>
+      </section>
+
+      <section id="detailAcara"
+        class="w-full max-w-[420px] h-[680px] bg-[url(/img/bg.png)] flex flex-col items-center justify-center">
+
+        <div
+          class="relative min-h-[680px] w-full max-w-[420px] overflow-hidden flex flex-col items-center justify-center">
+
+          <div
+            class="w-[340px] h-[550px] bg-secondColor/20 rounded-xl shadow-lg flex flex-col items-center justify-center px-8">
+
+            <div class="flex flex-col items-center">
+              <h2 class="text-3xl font-semibold text-center mb-4 text-mainColor">Info Pelaksanaan</h2>
+              <h3 class="animate-on-scroll text-2xl" data-animate="fade-up">Minggu</h3>
+              <div class="h-1 w-30 bg-mainColor my-2"></div>
+              <h2 class="text-6xl text-mainColor animate-on-scroll" data-animate="zoom-in">26</h2>
+              <div class="h-1 w-30 bg-mainColor my-2"></div>
+              <h3 class="animate-on-scroll text-2xl" data-animate="fade-up">April 2026</h3>
+              <h3 class="text-2xl font-bold animate-on-scroll" data-animate="fade-up">Pukul 07.00 - 11.30 WIB</h3>
+            </div>
+            <div class="mt-2 flex flex-col items-center">
+              <h3 class="font-semibold text-mainColor animate-on-scroll text-2xl text-center" data-animate="zoom-in">
+                GEDUNG SYIFAUL QULUB JUMAPOLO</h3>
+              <p class="text-mainColor mb-2 leading-[20px] animate-on-scroll text-center animate-on-scroll"
+                data-animate="fade-down">Sembuh, Jatirejo, Kec. Jumapolo,
+                Kabupaten Karanganyar</p>
+            </div>
+            <div>
+              <div
+                class="flex flex-col items-center map-card cursor-pointer mt-2 hover:-translate-y-0.5 hover:scale-105"
+                x-data="{alamat: 'Pondok Pesantren Syifaul Qulub JUMAPOLO (LDII)', openMap() {
+                    const googleUrl ='https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(this.alamat);window.open(googleUrl, '_blank');}
+                      }" @click="openMap">
+                <!-- preview -->
+                <h3 class="text-mainColor hover:text-mainColor animate-on-scroll" data-animate="fade-up">View Maps
+                </h3>
+                <div class="h-0.5 w-30 bg-mainColor my-2 mx-auto hover:bg-mainColor"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="absolute top-0 right-0 flex items-start justify-end">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-top-right animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[200px] -translate-y-[30px] translate-x-[10px] scale-y-[-1] scale-x-[-1]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[150px]
+              origin-top-right animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[150px] -translate-y-[5px] translate-x-[60px] rotate-12 scale-y-[-1] scale-x-[-1]">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="absolute bottom-0 w-full h-[150px] flex flex-row justify-between items-end">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-bottom-left animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[150px] translate-y-[10px] -translate-x-[50px]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[180px]
+              origin-bottom-left animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[130px] translate-y-[30px] -translate-x-[10px] rotate-12">
+              </div>
+            </div>
+
+            <div class="relative h-auto w-auto bottom-0">
+              <img src="img/masjid.png" alt="" class="h-[150px] ">
+            </div>
+
+          </div>
+
+      </section>
+
+      <section id="countdown"
+        class="w-full max-w-[420px] h-[680px] bg-[url(/img/bg.png)] flex flex-col items-center justify-center">
+
+        <div
+          class="relative min-h-[680px] w-full max-w-[420px] overflow-hidden flex flex-col items-center justify-center">
+
+          <!-- WRAPPER UTAMA -->
+          <div class="relative w-full flex items-center justify-center ">
+
+            <!-- 🧱 CONTENT LAYER -->
+            <div class="relative z-20 flex flex-col items-center text-center justify-center w-80">
+              <img src="img/decor1.png" alt="" class="w-80 block w-full">
+              <div class="inset-0 z-30 text-center px-10 mt-24 absolute ">
+                <p class="animate-on-scroll" data-animate="fade-up">
+                  " Aku tidak menciptakan jin dan manusia melainkan agar mereka beribadah kepada-Ku Allah " <br><br>
+                  ~ Q.S Adz-Dzariyat : 56 ~
+                </p>
+                <div class="p-2 w-full mt-7 text-center">
+                  <!-- BARIS ATAS -->
+                  <h1 class="text-3xl font-semibold text-mainColor">Countdown Timer</h1>
+                  <div class="grid grid-cols-2 gap-1 mb-1 mt-3 animate-on-scroll" data-animate="zoom-in">
+                    <div class="count-box">
+                      <h3 id="days" class="count-number">00</h3>
+                      <p class="count-label">Hari</p>
+                    </div>
+                    <div class="count-box">
+                      <h3 id="hours" class="count-number">00</h3>
+                      <p class="count-label">Jam</p>
+                    </div>
+                  </div>
+                  <!-- BARIS BAWAH -->
+                  <div class="grid grid-cols-2 gap-1 animate-on-scroll" data-animate="zoom-in">
+                    <div class="count-box">
+                      <h3 id="minutes" class="count-number">00</h3>
+                      <p class="count-label">Menit</p>
+                    </div>
+                    <div class="count-box">
+                      <h3 id="seconds" class="count-number">00</h3>
+                      <p class="count-label">Detik</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute top-0 right-0 flex items-start justify-end z-30">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-top-right animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[150px] -translate-y-[30px] translate-x-[10px] scale-y-[-1] scale-x-[-1]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[150px]
+              origin-top-right animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[130px] -translate-y-[5px] translate-x-[60px] rotate-12 scale-y-[-1] scale-x-[-1]">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="absolute bottom-0 w-full h-[150px] flex flex-row justify-between items-end z-30">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-bottom-left animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[150px] translate-y-[10px] -translate-x-[50px]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[180px]
+              origin-bottom-left animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[130px] translate-y-[30px] -translate-x-[10px] rotate-12">
+              </div>
+            </div>
+
+            <div class="relative h-auto w-auto bottom-0">
+              <img src="img/masjid.png" alt="" class="h-[200px] ">
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="loveStory"
+        class="w-full max-w-[420px] h-[680px] bg-[url(/img/bg2.png)] flex flex-col items-center justify-center overflow-hidden">
+
+        <div class="relative max-w-[420px] px-8 h-full">
+          <!-- Title -->
+          <div class="text-center mb-8 mt-16">
+            <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">
+              NB
+            </p>
+            <h2 class="text-3xl font-semibold text-yellow-400 mt-2">
+              Catatan
+            </h2>
+            <div class="w-12 h-[2px] bg-gray-300 mx-auto mt-4"></div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="relative space-y-5">
+
+            <!-- Line -->
+            <div class="absolute left-4 top-0 bottom-0 w-px bg-gray-300"></div>
+
+            <!-- Item -->
+            <div class="relative pl-12">
+              <div class="absolute left-2 top-1 w-4 h-4 rounded-full bg-yellow-400"></div>
+              <p class="text-xs text-gray-400">-----------</p>
+              <h3 class="font-semibold text-white mb-1 animate-on-scroll" data-animate="fade-up">
+                Persiapan Infaq 1x
+              </h3>
+            </div>
+
+            <!-- Item -->
+            <div class="relative pl-12">
+              <div class="absolute left-2 top-1 w-4 h-4 rounded-full bg-yellow-400"></div>
+              <p class="text-xs text-gray-400">----------</p>
+              <h3 class="font-semibold text-white mb-1 animate-on-scroll" data-animate="fade-up">
+                Membawa Buku Resume Nasehat
+              </h3>
+              <p class="text-sm text-gray-600 leading-relaxed animate-on-scroll" data-animate="fade-up">
+              </p>
+            </div>
+
+            <!-- Item -->
+            <div class="relative pl-12">
+              <div class="absolute left-2 top-1 w-4 h-4 rounded-full bg-yellow-400"></div>
+              <p class="text-xs text-gray-400">----------</p>
+              <h3 class="font-semibold text-white mb-1 animate-on-scroll" data-animate="fade-up">
+                Membawa plastik untuk wadah sendal
+              </h3>
+              <p class="text-sm text-gray-600 leading-relaxed animate-on-scroll" data-animate="fade-up">
+              </p>
+            </div>
+
+            <!-- Item -->
+            <div class="relative pl-12">
+              <div class="absolute left-2 top-1 w-4 h-4 rounded-full bg-yellow-400"></div>
+              <p class="text-xs text-gray-400">----------</p>
+              <h3 class="font-semibold text-white mb-1 animate-on-scroll" data-animate="fade-up">
+                Pakaian peserta
+              </h3>
+              <p class="text-sm text-white leading-relaxed animate-on-scroll" data-animate="fade-up">
+                Putra : Batik / Kemeja tidak memakai kaos oblong, kaos berkerah atau jumper
+              </p>
+              <p class="text-sm text-white leading-relaxed animate-on-scroll" data-animate="fade-up"> <br>
+                Putri : Batik / Syar'i ( tidak ketat dan nerawang)
+              </p>
+            </div>
+
+
+          </div>
+          <div class="absolute top-0 right-0 flex items-start justify-end">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-top-right animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[150px] -translate-y-[40px] translate-x-[10px] scale-y-[-1] scale-x-[-1]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[150px]
+              origin-top-right animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png"
+                  class="w-[130px] -translate-y-[5px] translate-x-[60px] rotate-12 scale-y-[-1] scale-x-[-1]">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="absolute bottom-0 w-full h-[150px] flex flex-row justify-between items-end">
+
+            <div class="relative">
+              <!-- layer 1 -->
+              <div class="w-[180px] origin-bottom-left animate-[wiggle2_4s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[150px] translate-y-[20px] -translate-x-[70px]">
+              </div>
+
+              <!-- layer 2 -->
+              <div class="absolute top-0 left-0 w-[180px]
+              origin-bottom-left animate-[wiggle_3s_ease-in-out_infinite]">
+                <img src="img/daun1.png" class="w-[130px] translate-y-[40px] -translate-x-[10px] rotate-12">
+              </div>
+            </div>
+
+            <div class="relative h-auto w-auto bottom-0">
+              <img src="img/masjid.png" alt="" class="h-[150px] ">
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+
+      <section id="ucapan"
+        class="py-16 bg-[url('/img/bg.png')] bg-cover bg-center bg-no-repeat min-h-screen relative overflow-hidden">
+        <!-- Ucapan tamu -->
+        <h2 class="text-3xl font-semibold text-center mb-4 text-mainColor">
+          Doa dan Komentar
+        </h2>
+
+        <!-- FORM -->
+        <div class="px-5">
+          <div class="bg-white rounded-2xl shadow-lg p-6">
+            <input id="nameUcapan" type="text" placeholder="Nama / panggilan" class="font-paragraf w-full bg-transparent border-b-2 border-mainColor
+                 px-2 py-2 text-sm focus:outline-none focus:border-mainColor animate-on-scroll"
+              data-animate="zoom-in" />
+
+            <textarea id="messageUcapan" rows="2" placeholder="Tulis komentar disini..." class="font-paragraf w-full bg-transparent border-b-2 border-mainColor
+                 px-2 py-2 text-sm focus:outline-none focus:border-mainColor animate-on-scroll"
+              data-animate="zoom-in"></textarea>
+
+            <div class="flex items-center gap-3">
+              <div id="statusUcapan" class="text-sm text-gray-500"></div>
+
+              <button id="sendUcapan"
+                class="ml-auto flex items-center justify-center text-xs text-white p-3 border rounded-full h-8 transition-all duration-200 ease-out hover:brightness-110 hover:-translate-y-0.5 hover:scale-105 bg-mainColor">
+                Kirim
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOMENTAR -->
+        <div class="mt-10">
+          <h2 class="text-2xl font-semibold mb-4 text-center text-mainColor">
+            Komentar Publik
+          </h2>
+          <div class="px-5">
+            <div
+              class="relative rounded-2xl border border-white/40 bg-white/70 backdrop-blur-md shadow-xl max-h-[500px] overflow-hidden">
+
+              <!-- SHADOW ATAS -->
+              <div id="shadow-top" class="pointer-events-none absolute top-0 left-0 right-0 h-6 
+             bg-gradient-to-b from-black/15 to-transparent 
+             rounded-t-2xl opacity-0 transition-opacity duration-300 z-10">
+              </div>
+
+              <!-- AREA SCROLL -->
+              <div id="comment-scroll" class="overflow-y-auto max-h-[500px] scroll-smooth p-6">
+                <div id="comments" class="space-y-4 text-sm text-gray-700">
+                  Memuat komentar...
+                </div>
+              </div>
+
+              <!-- SHADOW BAWAH -->
+              <div id="shadow-bottom" class="pointer-events-none absolute bottom-0 left-0 right-0 h-6 
+             bg-gradient-to-t from-black/15 to-transparent 
+             rounded-b-2xl opacity-0 transition-opacity duration-300 z-10">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="penutup"
+        class="w-full max-w-[420px] h-[680px] bg-[url(/img/bg2.png)] flex flex-col items-center justify-center">
+
+
+
+        <!-- WRAPPER UTAMA -->
+        <div class="relative w-full flex justify-center">
+
+
+          <!-- 🧱 CONTENT LAYER -->
+          <div class="relative  w-80">
+            <img src="img/decor2.png" alt="" class="w-80 block w-full">
+            <div class="inset-0 z-30 text-center px-10 absolute justify-center flex flex-col ">
+              <h2 class="text-2xl font-semibold text-center mb-8 text-yellow-400">
+                Alhamdulillahi Jaza Kumullahu Khoiro
+              </h2>
+              <p class="text-white mb-4 leading-[20px] animate-on-scroll" data-animate="zoom-in">
+                Amalsolih teman-teman bisa hadir pada kegiatan ini.
+              </p>
+
+              <p class="italic leading-[20px] text-white mb-4 animate-on-scroll" data-animate="zoom-in">
+                Semoga Allah beri aman selamat lancar sugih berhasil barokah. Aamiin
+              </p>
+
+              <h2 class="text-2xl font-semibold text-center mt-4 text-yellow-400">
+                Waalaikumussalam Wr. Wb
+              </h2>
+
+              <div class="mt-8">
+                <h3 class="text-sm text-gray-300">Panitia</h3>
+                <h3 class="font-medium tracking-wide text-gray-300 animate-on-scroll" data-animate="zoom-in">
+                  Penerobosan MMD Pusat
+                </h3>
+              </div>
+
+              <div class="flex flex-col items-center justify-center">
+
+                <p class="mt-6 mb-2 text-yellow-400 font-bold">FOLLOW US ON INSTAGRAM</p>
+                <div
+                  class="w-48 h-10 p-2 flex items-center rounded-full bg-white text-mainColor text-sm font-medium transition-all duration-200 ease-out hover:brightness-110 hover:-translate-y-0.5 hover:scale-105">
+                  <a href="https://www.instagram.com/ppgenerus_jumapolo/" target="_blank" rel="noopener noreferrer"
+                    class="flex items-center gap-1 h-full mx-auto ">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-on-scroll" data-animate="fade-up"
+                      fill="currentColor" viewBox="0 0 256 256">
+                      <path
+                        d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z">
+                      </path>
+                    </svg>
+                    <p class="text-left animate-on-scroll" data-animate="fade-up">ppgenerus_jumapolo
+                    </p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer id="branding" class="relative bg-mainColor overflow-hidden text-white py-6 px-6 mt-3">
+
+        <!-- GLOW BACKGROUND -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#0B0616_0%,transparent_90%)]">
+        </div>
+
+        <!-- CONTENT -->
+        <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center gap-3 text-center">
+
+          <!-- COPYRIGHT -->
+          <p class="text-sm text-neutral-300">
+            © <span id="year"></span> Digital Invitation
+          </p>
+
+          <!-- BRANDING -->
+          <div class="text-xs text-white flex flex-col items-center gap-1">
+            <p>Design & Development by</p>
+
+            <div class="h-[22px] ">
+              <p>Bidang KMM PPG Jumapolo </p>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+
+
+      <div id="bottomNavbar"
+        class="fixed bottom-2 w-full max-w-[420px] left-1/2 -translate-x-1/2 z-[999] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+        <div class="w-full h-14 px-10">
+          <div class="h-full rounded-full bg-mainColor flex items-center justify-between px-8 shadow-xl text-white">
+            <div class="w-9 h-9 flex items-center justify-center">
+              
+              <button data-target="#greeting" class="nav-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 256 256" fill="currentColor">
+                  <path
+                    d="M240,210H222V131.17l5.76,5.76a6,6,0,0,0,8.48-8.49L137.9,30.09a14,14,0,0,0-19.8,0L19.76,128.44a6,6,0,0,0,8.48,8.49L34,131.17V210H16a6,6,0,0,0,0,12H240a6,6,0,0,0,0-12ZM46,119.17l80.58-80.59a2,2,0,0,1,2.84,0L210,119.17V210H158V152a6,6,0,0,0-6-6H104a6,6,0,0,0-6,6v58H46ZM146,210H110V158h36Z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            <!-- <button data-target="#greeting" class="nav-btn">Salam</button> -->
+
+            <div class="w-9 h-9 flex items-center justify-center">
+              <button data-target="#detailAcara" class="nav-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill=currentColor viewBox="0 0 256 256">
+                  <path
+                    d="M208,34H182V24a6,6,0,0,0-12,0V34H86V24a6,6,0,0,0-12,0V34H48A14,14,0,0,0,34,48V208a14,14,0,0,0,14,14H208a14,14,0,0,0,14-14V48A14,14,0,0,0,208,34Zm2,174a2,2,0,0,1-2,2H48a2,2,0,0,1-2-2V48a2,2,0,0,1,2-2H74V56a6,6,0,0,0,12,0V46h84V56a6,6,0,0,0,12,0V46h26a2,2,0,0,1,2,2ZM152,90a30,30,0,0,0-24,12,30,30,0,0,0-54,18c0,35.3,49.22,60.32,51.32,61.37a6,6,0,0,0,5.36,0C132.78,180.32,182,155.3,182,120A30,30,0,0,0,152,90Zm-3.67,65.25A138,138,0,0,1,128,169.19a138.82,138.82,0,0,1-20.33-13.94C97.78,147,86,134.15,86,120a18,18,0,0,1,36,0,6,6,0,0,0,12,0,18,18,0,0,1,36,0C170,134.15,158.22,147,148.33,155.25Z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+
+            <!-- <button data-target="#countdown" class="nav-btn">Hitung</button> -->
+            <div class="w-9 h-9 flex items-center justify-center">
+              <button data-target="#countdown" class="nav-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill=currentColor viewBox="0 0 256 256"><path d="M230,136.49A102.12,102.12,0,1,1,119.51,26a6,6,0,0,1,1,12A90.13,90.13,0,1,0,218,135.51a6,6,0,1,1,12,1ZM122,72v56a6,6,0,0,0,6,6h56a6,6,0,0,0,0-12H134V72a6,6,0,0,0-12,0Zm38-26a10,10,0,1,0-10-10A10,10,0,0,0,160,46Zm36,24a10,10,0,1,0-10-10A10,10,0,0,0,196,70Zm24,36a10,10,0,1,0-10-10A10,10,0,0,0,220,106Z"></path></svg>
+              </button>
+            </div>
+
+
+            <!-- <button data-target="#loveStory" class="nav-btn">Story</button> -->
+            <div class="w-9 h-9 flex items-center justify-center">
+              <button data-target="#loveStory" class="nav-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill=currentColor viewBox="0 0 256 256"><path d="M228.24,59.76l-32-32a6,6,0,0,0-8.48,0l-96,96A6,6,0,0,0,90,128v32a6,6,0,0,0,6,6h32a6,6,0,0,0,4.24-1.76l96-96A6,6,0,0,0,228.24,59.76ZM125.51,154H102V130.49l66-66L191.51,88ZM200,79.51,176.49,56,192,40.49,215.51,64ZM222,128v80a14,14,0,0,1-14,14H48a14,14,0,0,1-14-14V48A14,14,0,0,1,48,34h80a6,6,0,0,1,0,12H48a2,2,0,0,0-2,2V208a2,2,0,0,0,2,2H208a2,2,0,0,0,2-2V128a6,6,0,0,1,12,0Z"></path></svg>
+              </button>
+            </div>
+
+            <!-- <button data-target="#rsvp" class="nav-btn">RSVP</button> -->
+            <div class="w-9 h-9 flex items-center justify-center">
+              <button data-target="#ucapan" class="nav-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill=currentColor viewBox="0 0 256 256">
+                  <path
+                    d="M166,104a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,104Zm-6,26H96a6,6,0,0,0,0,12h64a6,6,0,0,0,0-12Zm70-74V184a14,14,0,0,1-14,14H154.41L140.16,223a14,14,0,0,1-24.32,0L101.59,198H40a14,14,0,0,1-14-14V56A14,14,0,0,1,40,42H216A14,14,0,0,1,230,56Zm-12,0a2,2,0,0,0-2-2H40a2,2,0,0,0-2,2V184a2,2,0,0,0,2,2h65.07a6,6,0,0,1,5.21,3l16,28a2,2,0,0,0,3.48,0l16-28a6,6,0,0,1,5.21-3H216a2,2,0,0,0,2-2Z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            <!-- <button data-target="#penutup" class="nav-btn">Akhir</button> -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main class="pb-24">
+</body>
+
+<!-- MODAL -->
+<div id="lightbox" class="fixed inset-0 bg-black/80 hidden z-1000 flex items-center justify-center pointer-events-auto">
+
+  <div class="relative max-w-[90%] max-h-[90%]">
+
+    <!-- CLOSE -->
+    <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white text-3xl">×</button>
+
+    <!-- IMAGE -->
+    <img id="lightbox-img" class="max-h-[80vh] rounded-xl mx-auto">
+
+    <!-- CONTROLS -->
+    <div class="flex justify-between items-center mt-4 text-white">
+
+      <button onclick="prevImage()" class="text-7xl">‹</button>
+
+      <div class="flex gap-4">
+        <a id="downloadBtn" download class="border px-3 py-1 rounded hover:bg-white hover:text-black">
+          Download
+        </a>
+        <button onclick="closeLightbox()">Kembali</button>
+      </div>
+
+      <button onclick="nextImage()" class="text-7xl">›</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- toast copy -->
+<div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[999]
+         bg-black/80 text-white text-sm
+         px-4 py-2 rounded-full
+         opacity-0 pointer-events-none
+         transition-all duration-300">
+  Tersalin
+</div>
+
+<!-- animasi loading -->
+<div id="rsvp-loading" class="fixed inset-0 z-[9999] hidden bg-black/60 flex items-center justify-center">
+
+  <div class="bg-white rounded-2xl px-8 py-6 text-center shadow-xl">
+    <div class="w-10 h-10 border-4 border-mainColor border-t-transparent rounded-full animate-spin mx-auto mb-4">
+    </div>
+    <p class="text-sm font-medium">
+      Mengirim konfirmasi...
+    </p>
+  </div>
+</div>
+<div id="rsvp-status-text" class="fixed inset-0 z-[999]
+         flex items-center justify-center
+         opacity-0 pointer-events-none
+         transition-all duration-300">
+  <div id="rsvp-status-box" class="px-6 py-3 text-sm rounded-full
+           border border-white/20
+           shadow-lg ">
+    Status text
+  </div>
+</div>
+
+<!-- Musik latar (auto play saat buka undangan) -->
+<audio id="bgMusic" loop>
+  <source src="musik/masaKini.MP3" type="audio/mpeg">
+</audio>
+
+<script src="script.js" defer></script>
+
+</html>
