@@ -3,7 +3,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap");
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @theme { 
     --font-tittle3: "Playfair", serif;
@@ -192,7 +194,7 @@ h3 {
 .delay-400 { animation-delay: .6s; }
 
 
-//overlay
+/* overlay */
 .nav-btn {
   @apply flex-none flex items-center justify-center min-w-[36px] min-h-[36px] w-9 h-9 min-w-[36px] min-h-[36px] text-xs font-medium text-white transition;
          
