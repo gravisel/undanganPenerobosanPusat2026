@@ -14,7 +14,7 @@ if (guest && guest.toLowerCase() === "admin") {
   document.body.classList.remove("overflow-hidden");
 
   // --- Dashboard: Password (ubah sesuai keinginan) ---
-  const DASHBOARD_PASSWORD = "admin2026";
+  const DASHBOARD_PASSWORD = "admin";
   const STORAGE_KEY = "ivory_dashboard_links";
 
   const dashboardLogin = document.getElementById("dashboardLogin");
