@@ -799,14 +799,6 @@ video {
   display: none;
 }
 
-.h-0\.5{
-  height: 0.125rem;
-}
-
-.h-1{
-  height: 0.25rem;
-}
-
 .h-10{
   height: 2.5rem;
 }
@@ -919,6 +911,10 @@ video {
   width: 3.5rem;
 }
 
+.w-32{
+  width: 8rem;
+}
+
 .w-4{
   width: 1rem;
 }
@@ -945,6 +941,10 @@ video {
 
 .w-9{
   width: 2.25rem;
+}
+
+.w-\[112px\]{
+  width: 112px;
 }
 
 .w-\[130px\]{
@@ -989,30 +989,6 @@ video {
 
 .w-px{
   width: 1px;
-}
-
-.w-32{
-  width: 8rem;
-}
-
-.w-2{
-  width: 0.5rem;
-}
-
-.w-24{
-  width: 6rem;
-}
-
-.w-28{
-  width: 7rem;
-}
-
-.w-\[120px\]{
-  width: 120px;
-}
-
-.w-\[112px\]{
-  width: 112px;
 }
 
 .max-w-5xl{
@@ -1387,11 +1363,6 @@ video {
   background-color: rgb(250 204 21 / var(--tw-bg-opacity, 1));
 }
 
-.bg-yellow-500{
-  --tw-bg-opacity: 1;
-  background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
-}
-
 .bg-\[radial-gradient\(circle_at_center\2c \#0B0616_0\%\2c transparent_90\%\)\]{
   background-image: radial-gradient(circle at center,#0B0616 0%,transparent 90%);
 }
@@ -1593,10 +1564,6 @@ video {
   text-align: center;
 }
 
-.font-name{
-  font-family: Ephesis, cursive;
-}
-
 .font-paragraf{
   font-family: Inter, sans-serif;
 }
@@ -1609,11 +1576,6 @@ video {
 .text-3xl{
   font-size: 1.875rem;
   line-height: 2.25rem;
-}
-
-.text-5xl{
-  font-size: 3rem;
-  line-height: 1;
 }
 
 .text-6xl{
