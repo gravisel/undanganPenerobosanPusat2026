@@ -1,13 +1,19 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.{html,js}"],
+  content: ["./index.html", "./src/**/*.{html,js}"],
   theme: {
     extend: {
       fontFamily: {
-        heading: ["Montserrat", "sans-serif"],
-        body: ["Poppins", "sans-serif"],
+        tittle3: ["Playfair Display", "serif"],
+        name: ["Ephesis", "cursive"],
+        paragraf: ["Inter", "sans-serif"],
+        tittle2: ["Princess Sofia", "cursive"],
       },
-    },
+      colors: {
+        mainColor: "#264677",
+        secondColor: "#358A9E",
+        thirdColor: "#FDD130",
+      }
+    }
   },
   plugins: [],
 }

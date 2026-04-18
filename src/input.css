@@ -7,11 +7,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@theme { 
-    --font-tittle3: "Playfair", serif;
-    --font-Name: "Ephesis", cursive;
-    --font-paragraf: "Inter", sans-serif;
-    --font-tittle2: "Princess Sofia", cursive;
+:root {
+  --font-tittle3: "Playfair", serif;
+  --font-name: "Ephesis", cursive;
+  --font-paragraf: "Inter", sans-serif;
+  --font-tittle2: "Princess Sofia", cursive;
 
     --color-mainColor: #264677;
     --color-secondColor: #358A9E;
@@ -28,7 +28,7 @@ p {
 }
 
 h1 {
-  font-family: var(--font-Name);
+  font-family: var(--font-name);
   font-weight: 700;
 }
 
