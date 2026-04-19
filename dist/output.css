@@ -878,10 +878,6 @@ video {
   height: 1px;
 }
 
-.h-\[2000px\]{
-  height: 2000px;
-}
-
 .max-h-64{
   max-height: 16rem;
 }
